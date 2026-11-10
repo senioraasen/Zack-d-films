@@ -158,6 +158,8 @@ function shotRoofHit({ makeStage }) {
   const scene = makeStage();
   scene.add(townRow({ z: -12, seed: 7 }));
   const car = parkedCar('#d43b2e');
+  const red = new THREE.MeshStandardMaterial({ color: '#b8261d', roughness: 0.5, metalness: 0.05 });
+  car.traverse((m) => { if (m.isMesh && m.material.clearcoat === 1 && m.material.color.r > 0.5) m.material = red; });
   scene.add(car);
   const P = new THREE.Vector3(0.1, 1.495, 0.15); // impact point (world)
   const nut = hazelnut(); nut.scale.setScalar(0.3); scene.add(nut);
@@ -171,8 +173,9 @@ function shotRoofHit({ makeStage }) {
     update(t) {
       const r = 0.3 * 0.5; // nut radius-ish after scale
       if (t < tHit) {
-        nut.position.set(P.x, kf(t, [[0, P.y + 2.6], [tHit, P.y + r]], ease.linear), P.z);
+        nut.position.set(P.x, kf(t, [[0, P.y + 1.3], [tHit, P.y + r]], ease.linear), P.z);
         nut.flatten(0);
+        nut.scale.multiplyScalar(0.3);
         nut.rotation.set(0.3, t * 1.5, 0.2);
       } else {
         const u = t - tHit;
@@ -191,7 +194,7 @@ function shotRoofHit({ makeStage }) {
       const push = kf(t, [[0, 0], [D, 0.25]]);
       place(camera, [P.x + 1.25 - push, P.y + 0.55, P.z + 1.55 - push], [P.x, P.y + 0.12, P.z]);
       shake(camera, t, tHit, 0.03, 0.4);
-      return { dof: { focus: 2.0 - push, aperture: 0.004, maxblur: 0.01 }, bloom: 0.5 };
+      return { dof: { focus: 2.0 - push, aperture: 0.003, maxblur: 0.008 }, bloom: 0.22, exposure: 0.85 };
     },
   };
 }
