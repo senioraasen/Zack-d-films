@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nøtteregn 3D</title>
+<style>
+  html, body { margin: 0; background: #000; height: 100%; }
+  body { display: flex; align-items: center; justify-content: center; }
+  #out { height: 100vh; width: auto; aspect-ratio: 9 / 16; cursor: pointer; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "./node_modules/three/build/three.module.js",
+  "three/addons/": "./node_modules/three/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<canvas id="out" width="720" height="1280"></canvas>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
